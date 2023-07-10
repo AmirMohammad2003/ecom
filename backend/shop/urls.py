@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter, DefaultRouter
 
 from shop.views import CategoryListView, CategoryProductListView, ProductViewset
 
-appname = "shop"
+app_name = "shop"
 
 if settings.DEBUG:
     router = DefaultRouter()
