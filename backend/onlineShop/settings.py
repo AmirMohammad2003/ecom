@@ -104,6 +104,7 @@ DATABASES = {
         "PASSWORD": os.environ.get("DB_PASS"),
         "HOST": os.environ.get("DB_HOST"),
         "PORT": 5432,
+        "ATOMIC_REQUESTS": True,
     }
 }
 
