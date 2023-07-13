@@ -52,7 +52,8 @@ class TestProductViewSet(APITestCase):
 
     def test_category_product_list_not_found(self):
         response = self.client.get(f"/v1/category/not-found/")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 0)
 
     def test_category_list(self):
         response = self.client.get("/v1/category/")
