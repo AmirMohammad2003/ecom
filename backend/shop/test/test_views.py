@@ -1,8 +1,8 @@
 from decimal import Decimal
 
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APIClient, APITestCase
 
-from shop.models import Product, Category
+from shop.models import Category, Product
 
 
 class TestProductViewSet(APITestCase):
