@@ -6,7 +6,11 @@ from .serializers import CategorySerializer, ProductSerializer
 
 
 class ProductViewset(viewsets.ReadOnlyModelViewSet):
-    queryset = Product.objects.filter(available=True).order_by("-created")
+    queryset = (
+        Product.objects.filter(available=True)
+        .order_by("-created")
+        .select_related("category")
+    )
     serializer_class = ProductSerializer
     lookup_field = "slug"
 
@@ -21,4 +25,8 @@ class CategoryProductListView(generics.ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs["slug"]
-        return Product.objects.filter(category__slug=slug).order_by("-created")
+        return (
+            Product.objects.filter(category__slug=slug)
+            .order_by("-created")
+            .select_related("category")
+        )
