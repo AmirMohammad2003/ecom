@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from rest_framework.test import APIClient, APITestCase
 
+from shop.factories import CategoryFactory, ProductFactory
 from shop.models import Category, Product
 
 
@@ -9,25 +10,10 @@ class TestProductViewSet(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.url = "/v1/product/"
-        self.category = Category.objects.create(
-            name="Test Category", slug="test-category"
-        )
-        self.product = Product.objects.create(
-            name="Test Product",
-            slug="test-product",
-            description="Test Product Description",
-            price=Decimal("10.00"),
-            available=True,
-            category=self.category,
-        )
-        self.product2 = Product.objects.create(
-            name="Test Product 2",
-            slug="test-product-2",
-            description="Test Product Description 2",
-            price=Decimal("20.00"),
-            available=True,
-            category=self.category,
-        )
+        self.category = CategoryFactory.create()
+        self.product = ProductFactory.create(category=self.category, available=True)
+        self.product2 = ProductFactory.create(category=self.category, available=True)
+        self.product3 = ProductFactory.create(category=self.category, available=False)
 
     def test_list(self):
         response = self.client.get(self.url)
@@ -47,6 +33,7 @@ class TestProductViewSet(APITestCase):
     def test_category_product_list(self):
         response = self.client.get(f"/v1/category/{self.category.slug}/")
         self.assertEqual(response.status_code, 200)
+        ProductFactory.create(available=True)
         self.assertEqual(len(response.json()), 2)
         self.assertEqual(response.json()[0]["name"], self.product2.name)
 
