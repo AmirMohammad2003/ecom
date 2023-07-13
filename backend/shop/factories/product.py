@@ -1,5 +1,4 @@
 import factory
-
 from django.utils.text import slugify
 
 from shop.models import Product, create_slug

@@ -1,8 +1,8 @@
 import factory
-
 from django.utils.text import slugify
 
 from shop.models import Category
+
 
 class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
