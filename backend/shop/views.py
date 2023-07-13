@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import generics, viewsets
 
 from shop.models import Category, Product
@@ -26,7 +27,7 @@ class CategoryProductListView(generics.ListAPIView):
     def get_queryset(self):
         slug = self.kwargs["slug"]
         return (
-            Product.objects.filter(category__slug=slug)
+            Product.objects.filter(Q(category__slug=slug) & Q(available=True))
             .order_by("-created")
             .select_related("category")
         )
