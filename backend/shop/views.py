@@ -22,5 +22,4 @@ class CategoryProductListView(generics.ListAPIView):
 
     def get_queryset(self):
         slug = self.kwargs['slug']
-        return Product.objects.filter(category__slug=slug)
-
+        return Product.objects.filter(category__slug=slug).order_by('-created')
