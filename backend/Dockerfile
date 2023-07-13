@@ -6,9 +6,9 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /app
 WORKDIR /app
-COPY . /app
 
 RUN apt-get update && apt-get install python3-dev libpq-dev -y
+COPY . /app
 RUN pip install -r ${reqFile} --no-cache-dir
 
 RUN mkdir -p /vol/web/media
