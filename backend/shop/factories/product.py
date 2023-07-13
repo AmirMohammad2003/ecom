@@ -1,7 +1,7 @@
 import factory
 from django.utils.text import slugify
 
-from shop.models import Product, create_slug
+from shop.models import Product
 
 
 class ProductFactory(factory.django.DjangoModelFactory):
