@@ -1,17 +1,15 @@
 FROM python:slim-bullseye
 
 LABEL Author="AmirMohammad"
-
+ARG reqFile
 ENV PYTHONUNBUFFERED 1
-
-COPY ./requirements.txt requirements.txt
-RUN apt-get update -y
-RUN apt-get install python3-dev libpq-dev -y
-RUN pip install -r requirements.txt
 
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
+
+RUN apt-get update && apt-get install python3-dev libpq-dev -y
+RUN pip install -r ${reqFile} --no-cache-dir
 
 RUN mkdir -p /vol/web/media
 RUN mkdir -p /vol/web/static

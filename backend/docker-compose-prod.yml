@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-          reqFile: requirements-dev.txt
+          reqFile: requirements.txt
     volumes:
       - .:/app
     expose:
