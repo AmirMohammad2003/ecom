@@ -27,12 +27,12 @@ const ProductCard = ({
             src={image}
             alt={name}
             width={128}
-            height={72}
-            className="aspect-video w-full"
+            height={128}
+            className="aspect-square w-full"
           />
         )}
         {!image && (
-          <div className="w-full aspect-video flex justify-center items-center bg-base-200">
+          <div className="w-full aspect-square flex justify-center items-center bg-base-200">
             NO IMAGE AVAILABLE
           </div>
         )}
