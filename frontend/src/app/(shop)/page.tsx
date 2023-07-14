@@ -12,7 +12,7 @@ const getProducts = async (props: { params: any; searchParams: any }) => {
     },
   };
   if (category !== undefined) {
-    products = await fetch(API_URL + `/v1/category/${category}/`, requestInit);
+    products = await fetch(API_URL + `/v1/category/${category}/products/`, requestInit);
   } else {
     products = await fetch(API_URL + "/v1/product/", requestInit);
   }
