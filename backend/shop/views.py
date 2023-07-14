@@ -6,7 +6,7 @@ from shop.models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
 
 
-class ProductViewset(viewsets.ReadOnlyModelViewSet):
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (
         Product.objects.filter(available=True)
         .order_by("-created")

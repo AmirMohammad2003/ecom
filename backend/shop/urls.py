@@ -4,7 +4,7 @@ from django.conf import settings
 from django.urls import path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
-from shop.views import CategoryProductListView, CategoryViewSet, ProductViewset
+from shop.views import CategoryProductListView, CategoryViewSet, ProductViewSet
 
 app_name = "shop"
 
@@ -12,7 +12,7 @@ if settings.DEBUG:
     router = DefaultRouter()
 else:
     router = SimpleRouter()
-router.register("product", ProductViewset, basename="product")
+router.register("product", ProductViewSet, basename="product")
 router.register("category", CategoryViewSet, basename="category")
 
 routerUrls = router.get_urls()
