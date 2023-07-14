@@ -93,6 +93,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "onlineShop.wsgi.application"
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
