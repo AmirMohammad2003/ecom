@@ -16,9 +16,10 @@ class ProductViewset(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = "slug"
 
 
 class CategoryProductListView(generics.ListAPIView):

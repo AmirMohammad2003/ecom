@@ -10,7 +10,8 @@ class TestCategory(TestCase):
 
     def test_get_absolute_url(self):
         self.assertEqual(
-            self.category.get_absolute_url(), f"/v1/category/{self.category.slug}/"
+            self.category.get_absolute_url(),
+            f"/v1/category/{self.category.slug}/products/",
         )
 
 

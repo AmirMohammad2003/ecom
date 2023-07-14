@@ -31,14 +31,14 @@ class TestProductViewSet(APITestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_category_product_list(self):
-        response = self.client.get(f"/v1/category/{self.category.slug}/")
+        response = self.client.get(f"/v1/category/{self.category.slug}/products/")
         self.assertEqual(response.status_code, 200)
         ProductFactory.create(available=True)
         self.assertEqual(len(response.json()), 2)
         self.assertEqual(response.json()[0]["name"], self.product2.name)
 
     def test_category_product_list_not_found(self):
-        response = self.client.get(f"/v1/category/not-found/")
+        response = self.client.get(f"/v1/category/not-found/products/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 0)
 
