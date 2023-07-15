@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-neozz&0-in$@gh8f10axc0g^l88-b*@a!-eb=jl8k20&f$)f-a"
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -53,6 +52,7 @@ THIRDPARTY_APPS = [
 
 LOCAL_APPS = [
     "shop.apps.ShopConfig",
+    "cart.apps.CartConfig",
 ]
 
 INSTALLED_APPS += THIRDPARTY_APPS + LOCAL_APPS
@@ -94,10 +94,11 @@ TEMPLATES = [
 WSGI_APPLICATION = "onlineShop.wsgi.application"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": f"redis://{REDIS_HOST}:6379",
     }
 }
 
@@ -174,3 +175,5 @@ if DEBUG:
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+CART_SESSION_ID = "cart"
