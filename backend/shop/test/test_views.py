@@ -1,11 +1,13 @@
 from decimal import Decimal
 
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APIClient, APITestCase, override_settings
 
 from shop.factories import CategoryFactory, ProductFactory
-from shop.models import Category, Product
 
 
+@override_settings(
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
+)
 class TestProductViewSet(APITestCase):
     def setUp(self):
         self.client = APIClient()

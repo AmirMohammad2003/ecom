@@ -1,9 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from shop.factories import CategoryFactory, ProductFactory
-from shop.models import Category, Product
 
 
+@override_settings(
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
+)
 class TestCategory(TestCase):
     def setUp(self):
         self.category = CategoryFactory.create()
@@ -15,6 +17,9 @@ class TestCategory(TestCase):
         )
 
 
+@override_settings(
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
+)
 class TestProduct(TestCase):
     def setUp(self):
         self.product = ProductFactory.create()
