@@ -1,7 +1,7 @@
 from email.mime import base
 
 from django.conf import settings
-from django.urls import path
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 from shop.views import CategoryProductListView, CategoryViewSet, ProductViewSet
@@ -22,4 +22,5 @@ urlpatterns = [
         CategoryProductListView.as_view(),
         name="product-category-list",
     ),
+    path("", include("cart.urls")),
 ] + routerUrls
