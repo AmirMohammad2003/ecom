@@ -2,7 +2,7 @@ import SideNav from "./components/side-nav";
 import ProductCard from "./components/product-card";
 import type { Product } from "./lib/types";
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const getProducts = async (props: { params: any; searchParams: any }) => {
   let products;
   const category = props.searchParams.category;

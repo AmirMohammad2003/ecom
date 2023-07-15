@@ -1,6 +1,7 @@
 import "../globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
+import CartIndicator from "./components/cart-indicator";
 
 export const metadata: Metadata = {};
 
@@ -22,12 +23,7 @@ export default function RootLayout({
             <div className="flex-none">
               <ul className="menu menu-horizontal px-1">
                 <li>
-                  <div className="indicator">
-                    <span className="indicator-item badge badge-primary">
-                      0
-                    </span>
-                    <Link href={"/cart"}>Cart</Link>
-                  </div>
+                  <CartIndicator />
                 </li>
               </ul>
             </div>
