@@ -48,6 +48,7 @@ THIRDPARTY_APPS = [
     "rest_framework",
     "django_extensions",
     "debug_toolbar",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -64,6 +65,7 @@ if DEBUG:
     ]
 
 MIDDLEWARE += [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -72,6 +74,29 @@ MIDDLEWARE += [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_URLS_REGEX = r"^/v1/cart/.*$"
+
+CORS_ALLOW_METHODS = (
+    "GET",
+    "POST",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
 
 ROOT_URLCONF = "onlineShop.urls"
 
