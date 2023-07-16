@@ -25,6 +25,8 @@ SECRET_KEY = "django-insecure-neozz&0-in$@gh8f10axc0g^l88-b*@a!-eb=jl8k20&f$)f-a
 DEBUG = True
 
 ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS += ["localhost", "127.0.0.1"]
 
 if DEBUG:
     import socket
