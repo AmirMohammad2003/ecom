@@ -10,7 +10,7 @@ export default function AddToCartForm({ id }: { id: number }) {
       <div className="py-3">
         <div className="flex flex-row gap-2">
           <p>Quantity</p>
-          <QuantitySelect setQuantity={setQuantity} />
+          <QuantitySelect setQuantity={setQuantity} defaultValue={1}/>
         </div>
       </div>
       <AddToCartButton id={id} quantity={quantity} />

@@ -2,8 +2,10 @@
 
 export default function QuantitySelect({
   setQuantity,
+  defaultValue=1,
 }: {
   setQuantity: (...args: any[]) => any;
+  defaultValue: number;
 }) {
   let quantityOptions: number[] = [];
   for (let index = 1; index <= 10; index++) {
@@ -16,7 +18,7 @@ export default function QuantitySelect({
       onChange={(event) => {
         setQuantity(parseInt(event.target.value));
       }}
-      defaultValue={1}
+      defaultValue={defaultValue}
     >
       {quantityOptions.map((value: number, index: number) => {
         return (
