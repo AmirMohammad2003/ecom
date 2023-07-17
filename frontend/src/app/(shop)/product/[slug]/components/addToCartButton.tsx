@@ -43,7 +43,7 @@ export default function AddToCartButton({
       onSuccess(data, key, config) {
         if (data.status === "success") {
           mutate("/v1/cart/size/");
-          toast.success(data.message)
+          toast.success(data.message);
         } else {
           toast.error(data.message);
         }
