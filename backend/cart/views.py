@@ -20,13 +20,21 @@ class CartViewSet(viewsets.ViewSet):
         serialized = CartAddSerializer(data=request.data)
         if serialized.is_valid():
             cd = serialized.validated_data
-            cart.add(
+            success = cart.add(
                 product=product,
                 quantity=cd["quantity"],
                 override_quantity=cd["override"],
             )
 
-            return Response({"message": "Item added to cart", "status": "success"})
+            if success:
+                return Response({"message": "Item added to cart", "status": "success"})
+            else:
+                return Response(
+                    {
+                        "message": "You can't buy more than 10 of this item.",
+                        "status": "failure",
+                    }
+                )
 
         return Response({"message": "Invalid data", "status": "failure"})
 

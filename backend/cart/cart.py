@@ -20,11 +20,16 @@ class Cart:
             self.cart[product_id] = {"quantity": 0}
 
         if override_quantity:
+            if quantity > 10:
+                return False
             self.cart[product_id]["quantity"] = quantity
         else:
+            if quantity + self.cart[product_id]["quantity"] > 10:
+                return False
             self.cart[product_id]["quantity"] += quantity
 
         self.save()
+        return True
 
     def remove(self, product):
         product_id = str(product.id)
