@@ -4,7 +4,9 @@ import Link from "next/link";
 import CartIndicator from "./components/cart-indicator";
 import { Toaster } from "react-hot-toast";
 
-export const metadata: Metadata = {};
+export const metadata: Metadata = {
+  "title": "Online Shop"
+};
 
 export default function RootLayout({
   children,
