@@ -2,7 +2,7 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CartIndicator from "./components/cart-indicator";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {};
 
@@ -22,11 +22,7 @@ export default function RootLayout({
               </Link>
             </div>
             <div className="flex-none">
-              <ul className="menu menu-horizontal px-1">
-                <li>
-                  <CartIndicator />
-                </li>
-              </ul>
+              <CartIndicator />
             </div>
           </div>
           {children}

@@ -2,7 +2,6 @@ export default function Loading() {
   return (
     <div
       role="status"
-      className="absolute  translate-x-[-25%] translate-y-[-25%]"
     >
       <svg
         aria-hidden="true"
