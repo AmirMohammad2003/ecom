@@ -58,6 +58,6 @@ class CartTest(APITestCase):
         self.cart.add(self.product, 2, False)
         self.cart.add(ProductFactory.create(), 1, False)
         for item in self.cart:
-            self.assertTrue("id" in item)
+            self.assertTrue("slug" in item)
             self.assertTrue("quantity" in item)
             self.assertTrue("price" in item)

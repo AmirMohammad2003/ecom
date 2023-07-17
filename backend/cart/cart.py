@@ -56,7 +56,7 @@ class Cart:
         cart = self.cart.copy()
         for product in products:
             item = cart[str(product.pk)]
-            item["id"] = product.pk
+            item["slug"] = product.slug
             item["price"] = Decimal(product.price)
             item["total_price"] = item["price"] * item["quantity"]
             yield item
