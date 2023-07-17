@@ -26,16 +26,18 @@ class CartViewSet(viewsets.ViewSet):
                 override_quantity=cd["override"],
             )
 
-            return Response({"status": "Item added to cart"})
+            return Response({"message": "Item added to cart", "status": "success"})
 
-        return Response({"status": "Invalid data"})
+        return Response({"message": "Invalid data", "status": "failure"})
 
     @action(methods=["post"], detail=True)
     def remove(self, request, pk=None, format=None):
         cart = Cart(request)
         product = get_object_or_404(Product, id=pk)
         cart.remove(product)
-        return Response({"status": "Item was removed from the cart"})
+        return Response(
+            {"message": "Item was removed from the cart", "status": "success"}
+        )
 
     @action(methods=["get"], detail=False)
     def size(self, request, format=None):

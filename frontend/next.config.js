@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  trailingSlash: true,
   images: {
     remotePatterns: [
       {
@@ -9,6 +10,18 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  async rewrites() {
+    return process.env.NODE_ENV !== "production"
+      ? {
+          afterFiles: [
+            {
+              source: "/v1/:path*/",
+              destination: `${process.env.API_URL}/v1/:path*/`,
+            },
+          ],
+        }
+      : [];
   },
 };
 

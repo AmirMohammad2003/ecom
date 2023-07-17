@@ -2,6 +2,7 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import CartIndicator from "./components/cart-indicator";
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {};
 
@@ -30,6 +31,7 @@ export default function RootLayout({
           </div>
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );
