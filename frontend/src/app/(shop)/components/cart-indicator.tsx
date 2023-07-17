@@ -3,13 +3,8 @@
 import { useRouter } from "next/navigation";
 import Loading from "./loading";
 import useSWR from "swr";
+import { fetcher } from "@/app/(shop)/lib/util"
 
-const API_URL = process.env.NEXT_PUBLIC_HOST_URL;
-const fetcher = (input: string) => {
-  return fetch(API_URL + input, { credentials: "include" }).then((_res) => {
-    return _res.json();
-  });
-};
 
 export default function CartIndicator() {
   const router = useRouter();
