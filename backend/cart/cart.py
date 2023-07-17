@@ -16,18 +16,21 @@ class Cart:
 
     def add(self, product: Product, quantity=1, override_quantity=False):
         product_id = str(product.pk)
+        created = False
         if product_id not in self.cart:
+            created = True
             self.cart[product_id] = {"quantity": 0}
 
-        if override_quantity:
-            if quantity > 10:
-                return False
-            self.cart[product_id]["quantity"] = quantity
-        else:
-            if quantity + self.cart[product_id]["quantity"] > 10:
-                return False
-            self.cart[product_id]["quantity"] += quantity
+        new_quantity = quantity
+        if not override_quantity:
+            new_quantity = quantity + self.cart[product_id]["quantity"]
 
+        if new_quantity > 10:
+            if created:
+                del self.cart[product_id]
+            return False
+
+        self.cart[product_id]["quantity"] = new_quantity
         self.save()
         return True
 

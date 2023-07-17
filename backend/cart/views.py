@@ -1,3 +1,5 @@
+from math import prod
+
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -16,33 +18,42 @@ class CartViewSet(viewsets.ViewSet):
     @action(methods=["post"], detail=True)
     def add(self, request, pk=None, format=None):
         cart = Cart(request)
-        product = get_object_or_404(Product, id=pk)
         serialized = CartAddSerializer(data=request.data)
-        if serialized.is_valid():
-            cd = serialized.validated_data
-            success = cart.add(
-                product=product,
-                quantity=cd["quantity"],
-                override_quantity=cd["override"],
+        if not serialized.is_valid():
+            return Response({"message": "Invalid data", "status": "failure"})
+
+        product = Product.objects.filter(id=pk).first()
+        if product is None:
+            return Response(
+                {
+                    "message": "Not enough stock available for this item.",
+                    "status": "failure",
+                }
             )
 
-            if success:
-                return Response({"message": "Item added to cart", "status": "success"})
-            else:
-                return Response(
-                    {
-                        "message": "You can't buy more than 10 of this item.",
-                        "status": "failure",
-                    }
-                )
+        cd = serialized.validated_data
+        success = cart.add(
+            product=product,
+            quantity=cd["quantity"],
+            override_quantity=cd["override"],
+        )
 
-        return Response({"message": "Invalid data", "status": "failure"})
+        if not success:
+            return Response(
+                {
+                    "message": "You can't buy more than 10 of this item.",
+                    "status": "failure",
+                }
+            )
+
+        return Response({"message": "Item added to cart", "status": "success"})
 
     @action(methods=["post"], detail=True)
     def remove(self, request, pk=None, format=None):
         cart = Cart(request)
-        product = get_object_or_404(Product, id=pk)
-        cart.remove(product)
+        product = Product.objects.filter(id=pk).first()
+        if product:
+            cart.remove(product)
         return Response(
             {"message": "Item was removed from the cart", "status": "success"}
         )
