@@ -22,7 +22,7 @@ class CartViewSet(viewsets.ViewSet):
         if not serialized.is_valid():
             return Response({"message": "Invalid data", "status": "failure"})
 
-        product = Product.objects.filter(id=pk).first()
+        product = Product.objects.filter(slug=pk).first()
         if product is None:
             return Response(
                 {
@@ -51,7 +51,7 @@ class CartViewSet(viewsets.ViewSet):
     @action(methods=["post"], detail=True)
     def remove(self, request, pk=None, format=None):
         cart = Cart(request)
-        product = Product.objects.filter(id=pk).first()
+        product = Product.objects.filter(slug=pk).first()
         if product:
             cart.remove(product)
         return Response(

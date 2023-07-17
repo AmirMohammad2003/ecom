@@ -43,7 +43,7 @@ export default async function ProductPage(props: {
           </Link>
           {product.description && <p className="py-3">{product.description}</p>}
           <p className="pt-3">Price: {product.price}$</p>
-          <AddToCartForm id={product.id}/>
+          <AddToCartForm slug={product.slug}/>
         </div>
       </div>
     </div>

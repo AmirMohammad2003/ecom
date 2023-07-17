@@ -17,16 +17,16 @@ const fetcher = ({
 };
 
 export default function AddToCartButton({
-  id,
+  slug,
   quantity,
 }: {
-  id: number;
+  slug: string;
   quantity: number;
 }) {
   const { mutate } = useSWRConfig();
   const { data, trigger, isMutating } = useSWRMutation(
     {
-      input: `/v1/cart/${id}/add/`,
+      input: `/v1/cart/${slug}/add/`,
       init: {
         method: "post",
         credentials: "include",

@@ -3,7 +3,7 @@ import { useState } from "react";
 import AddToCartButton from "./addToCartButton";
 import QuantitySelect from "./quantitySelect";
 
-export default function AddToCartForm({ id }: { id: number }) {
+export default function AddToCartForm({ slug }: { slug: string }) {
   const [quantity, setQuantity] = useState(1);
   return (
     <>
@@ -13,7 +13,7 @@ export default function AddToCartForm({ id }: { id: number }) {
           <QuantitySelect setQuantity={setQuantity} defaultValue={1}/>
         </div>
       </div>
-      <AddToCartButton id={id} quantity={quantity} />
+      <AddToCartButton slug={slug} quantity={quantity} />
     </>
   );
 }
