@@ -61,3 +61,12 @@ class CartTest(APITestCase):
             self.assertTrue("slug" in item)
             self.assertTrue("quantity" in item)
             self.assertTrue("price" in item)
+
+    def test_total_price(self):
+        self.cart.add(self.product, 1, False)
+        self.cart.add(self.product, 2, False)
+        product2 = ProductFactory.create()
+        self.cart.add(product2, 1, False)
+        self.assertEqual(
+            self.cart.get_total_price(), 3 * self.product.price + product2.price
+        )

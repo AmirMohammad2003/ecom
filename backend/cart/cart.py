@@ -40,6 +40,13 @@ class Cart:
             del self.cart[product_id]
             self.save()
 
+    def get_total_price(self):
+        products = Product.objects.filter(id__in=self.cart.keys())
+        return sum(
+            product.price * item["quantity"]
+            for product, item in zip(products, self.cart.values())
+        )
+
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.save()
@@ -57,6 +64,6 @@ class Cart:
         for product in products:
             item = cart[str(product.pk)]
             item["slug"] = product.slug
-            item["price"] = Decimal(product.price)
+            item["price"] = product.price
             item["total_price"] = item["price"] * item["quantity"]
             yield item
