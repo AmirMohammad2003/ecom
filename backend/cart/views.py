@@ -1,6 +1,3 @@
-from math import prod
-
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,8 +9,8 @@ from shop.models import Product
 
 class CartViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        cart = list(Cart(request))
-        return Response(cart)
+        cart = Cart(request)
+        return Response({"items": list(cart), "total_price": cart.get_total_price()})
 
     @action(methods=["post"], detail=True)
     def add(self, request, pk=None, format=None):

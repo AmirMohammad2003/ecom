@@ -1,4 +1,8 @@
-import CartItems from "./components/cart-items-list";
+"use client";
+import useSWR from "swr";
+import { fetcher } from "@/app/(shop)/lib/util";
+import { CartItemType } from "./lib/types";
+import CartItem from "./components/cart-item";
 
 const ColumnNames = () => (
   <tr>
@@ -12,6 +16,7 @@ const ColumnNames = () => (
 );
 
 export default function Cart() {
+  const { data, isLoading } = useSWR("/v1/cart/", fetcher);
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -19,12 +24,16 @@ export default function Cart() {
           <ColumnNames />
         </thead>
         <tbody>
-          <CartItems />
+          {(!isLoading &&
+            data?.items?.map((item: CartItemType, index: number) => {
+              return <CartItem key={index} cartItem={item} />;
+            })) }
         </tbody>
         <tfoot>
           <ColumnNames />
         </tfoot>
       </table>
+      <button className="btn btn-primary btn-block">Checkout {data?.total_price}</button>
     </div>
   );
 }

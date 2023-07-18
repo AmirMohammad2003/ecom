@@ -26,6 +26,7 @@ export default function ChangeQuantity({
     if (data?.status === "success") {
       setTotalPrice(quantity * cartItem.price);
       mutate("/v1/cart/size/");
+      mutate("/v1/cart/");
     }
   }, [cartItem.price, data]);
   return (
