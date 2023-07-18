@@ -1,11 +1,11 @@
 export const API_URL = process.env.NEXT_PUBLIC_HOST_URL;
-export const fetcher = (input: string) =>
+export const fetcher = async (input: string) =>
   _fetcher({ input: input, credentials: "include" });
 
-export const fetcherPost = (input: string) =>
+export const fetcherPost = async (input: string) =>
   _fetcher({ input: input, credentials: "include", method: "post" });
 
-export const fetcherPostJson = ({
+export const fetcherPostJson = async ({
   input,
   body,
 }: {
@@ -18,14 +18,21 @@ export const fetcherPostJson = ({
     method: "post",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
-  });
+  })
 
-const _fetcher = ({
+const _fetcher = async ({
   input,
   ...args
 }: {
   input: string;
   args: { method: string; credentials: string; body?: string; headers?: any };
 }) => {
-  return fetch(API_URL + input, { ...args }).then((_res) => _res.json());
+  const _res = await fetch(API_URL + input, { ...args });
+  if (!_res.ok) {
+    const error = new Error("An error occurred while fetching the data.");
+    error.info = await _res.json();
+    error.status = _res.status;
+    throw error;
+  }
+  return _res.json();
 };
