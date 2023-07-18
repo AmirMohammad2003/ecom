@@ -23,4 +23,5 @@ urlpatterns = [
         name="product-category-list",
     ),
     path("", include("cart.urls")),
+    path("", include("orders.urls")),
 ] + routerUrls

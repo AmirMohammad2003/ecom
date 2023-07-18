@@ -18,4 +18,4 @@ class OrderSerializer(serializers.ModelSerializer):
             "updated",
             "paid",
         ]
-        read_only_fields = ["id", "created", "updated"]
+        read_only_fields = ["id", "created", "updated", "paid"]
