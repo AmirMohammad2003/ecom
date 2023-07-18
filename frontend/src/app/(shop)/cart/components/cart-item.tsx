@@ -1,19 +1,16 @@
 "use client";
-import Image from "next/image";
-import QuantitySelect from "../../product/[slug]/components/quantitySelect";
-import { CartItemType } from "../lib/types";
-import useSWR from "swr";
-import { useSWRConfig } from "swr";
-import { fetcher } from "@/app/(shop)/lib/util";
 import { useState } from "react";
+import Image from "next/image";
+import useSWR from "swr";
+import { CartItemType } from "../lib/types";
+import { fetcher } from "@/app/(shop)/lib/util";
 import DeleteButton from "./delete-button";
+import ChangeQuantity from "./change-quantity";
 
 const Square = () => <div className="bg-slate-600 h-4 w-full"></div>;
 
 export default function CartItem({ cartItem }: { cartItem: CartItemType }) {
-  const [quantity, setQuantity] = useState(cartItem.quantity);
   const [totalPrice, setTotalPrice] = useState(cartItem.total_price);
-  const { mutate } = useSWRConfig();
   const { data, error, isLoading } = useSWR(
     `/v1/product/${cartItem.slug}/`,
     fetcher
@@ -55,7 +52,7 @@ export default function CartItem({ cartItem }: { cartItem: CartItemType }) {
         {isLoading ? (
           <Square />
         ) : (
-          <QuantitySelect setQuantity={() => {}} defaultValue={quantity} />
+          <ChangeQuantity setTotalPrice={setTotalPrice} cartItem={cartItem} />
         )}
       </td>
       <td>{isLoading ? <Square /> : <DeleteButton slug={cartItem.slug} />}</td>
