@@ -19,7 +19,7 @@ export default function RootLayout({
         <main className="m-6">
           <div className="navbar bg-base-100">
             <div className="flex-1">
-              <Link href={"/"} className="btn btn-ghost normal-case text-xl">
+              <Link href={"/"} className="text-primary btn btn-ghost normal-case text-xl">
                 Shop
               </Link>
             </div>
@@ -27,6 +27,7 @@ export default function RootLayout({
               <CartIndicator />
             </div>
           </div>
+          <div className="divider"></div>
           {children}
         </main>
         <Toaster />
