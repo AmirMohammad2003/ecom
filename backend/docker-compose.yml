@@ -22,6 +22,7 @@ services:
     depends_on:
       - db
       - redis
+      - rabbitMQ
   db:
     image: postgres:14-alpine
     environment:
@@ -34,5 +35,11 @@ services:
     image: redis:7-alpine
     ports:
       - 6379:6379
+  rabbitMQ:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
 volumes:
   db_data:
