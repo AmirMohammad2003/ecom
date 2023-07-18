@@ -1,28 +1,33 @@
 version: "3.9"
 
 services:
-  app:
+  celery: &celery
     build:
       context: .
       args:
           reqFile: requirements-dev.txt
     volumes:
       - .:/app
-    expose:
-      - "8000"
-    ports:
-      - 8000:8000
     environment:
       - REDIS_HOST=redis
       - DB_HOST=db
       - DB_NAME=app
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
-    command: "python manage.py runserver 0.0.0.0:8000"
+    command: "celery -A onlineShop worker -l info"
     depends_on:
       - db
       - redis
       - rabbitMQ
+
+  app:
+    <<: *celery
+    command: "python manage.py runserver 0.0.0.0:8000"
+    expose:
+      - "8000"
+    ports:
+      - 8000:8000
+
   db:
     image: postgres:14-alpine
     environment:
@@ -31,15 +36,20 @@ services:
       - POSTGRES_PASSWORD=supersecretpassword
     volumes:
       - db_data:/var/lib/postgresql/data
+
   redis:
     image: redis:7-alpine
     ports:
       - 6379:6379
+
   rabbitMQ:
     image: rabbitmq:3-management
+    expose:
+      - 5672
     ports:
-      - 5672:5672
       - 15672:15672
+
+
 
 volumes:
   db_data:
