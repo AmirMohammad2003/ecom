@@ -30,19 +30,29 @@ export default function Cart() {
             data?.items?.map((item: CartItemType, index: number) => {
               return <CartItem key={index} cartItem={item} />;
             })}
+
+          {!isLoading && data?.items?.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center text-xl text-accent">
+                Your cart is empty
+              </td>
+            </tr>
+          )}
         </tbody>
         <tfoot>
           <ColumnNames />
         </tfoot>
       </table>
-      <button
-        className="btn btn-primary btn-block"
-        onClick={() => {
-          router.push("/checkout");
-        }}
-      >
-        Checkout {data?.total_price}
-      </button>
+      {!isLoading && data?.items?.length !== 0 && (
+        <button
+          className="btn btn-primary btn-block"
+          onClick={() => {
+            router.push("/checkout");
+          }}
+        >
+          Checkout {data?.total_price}
+        </button>
+      )}
     </div>
   );
 }
