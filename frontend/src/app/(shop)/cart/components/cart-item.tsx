@@ -3,10 +3,12 @@ import Image from "next/image";
 import QuantitySelect from "../../product/[slug]/components/quantitySelect";
 import { CartItemType } from "../lib/types";
 import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 import { useSWRConfig } from "swr";
 import { fetcher } from "@/app/(shop)/lib/util";
 import { useState } from "react";
+import DeleteButton from "./delete-button";
+
+const Square = () => <div className="bg-slate-600 h-4 w-full"></div>;
 
 export default function CartItem({ cartItem }: { cartItem: CartItemType }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
@@ -26,15 +28,14 @@ export default function CartItem({ cartItem }: { cartItem: CartItemType }) {
             }
           >
             <div className="mask mask-squircle w-24 h-24">
-              {!isLoading && data?.image && (
+              {(!isLoading && data?.image && (
                 <Image
-                  src={data.image
-                  }
+                  src={data.image}
                   alt={data.name}
                   width={256}
                   height={256}
                 />
-              ) || (
+              )) || (
                 <div className="w-full h-full flex text-center items-center bg-slate-600">
                   NO IMAGE AVAILABLE
                 </div>
@@ -52,39 +53,14 @@ export default function CartItem({ cartItem }: { cartItem: CartItemType }) {
       </td>
       <td>
         {isLoading ? (
-          <div className="bg-slate-600 h-4 w-full"></div>
+          <Square />
         ) : (
           <QuantitySelect setQuantity={() => {}} defaultValue={quantity} />
         )}
       </td>
-      <td>
-        {isLoading ? (
-          <div className="bg-slate-600 h-4 w-full"></div>
-        ) : (
-          <button
-            className="btn btn-ghost btn-xs"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            Remove
-          </button>
-        )}
-      </td>
-      <td>
-        {isLoading ? (
-          <div className="bg-slate-600 h-4 w-full"></div>
-        ) : (
-          cartItem.price
-        )}
-      </td>
-      <th>
-        {isLoading ? (
-          <div className="bg-slate-600 h-4 w-full"></div>
-        ) : (
-          totalPrice
-        )}
-      </th>
+      <td>{isLoading ? <Square /> : <DeleteButton slug={cartItem.slug} />}</td>
+      <td>{isLoading ? <Square /> : cartItem.price}</td>
+      <th>{isLoading ? <Square /> : totalPrice}</th>
     </tr>
   );
 }
