@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from re import S
 
 from decouple import config
 
@@ -218,3 +219,7 @@ if DEBUG:
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
 STRIPE_API_VERSION = config("STRIPE_API_VERSION")
+STRIPE_ENDPOINT_SECRET = config("STRIPE_ENDPOINT_SECRET")
+
+if DEBUG:
+    FRONTEND_URL = "http://localhost:3000"
