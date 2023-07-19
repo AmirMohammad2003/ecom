@@ -51,7 +51,7 @@ class OrderDetailsApi(APIView):
         order_items = OrderItem.objects.filter(order=order)
         order_items = [
             {
-                "product": item.product.name,
+                "name": item.product.name,
                 "quantity": item.quantity,
                 "price": item.price,
             }
