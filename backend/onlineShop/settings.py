@@ -223,3 +223,5 @@ STRIPE_ENDPOINT_SECRET = config("STRIPE_ENDPOINT_SECRET")
 
 if DEBUG:
     FRONTEND_URL = "http://localhost:3000"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"

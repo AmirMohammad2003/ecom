@@ -1,5 +1,11 @@
+import weasyprint
+from django.conf import settings
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
+from django.views import View
+from django.template.loader import render_to_string
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView
@@ -74,3 +80,18 @@ class AdminOrderDetail(UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
+
+
+class AdminOrderPDF(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def get(self, request, pk):
+        order = get_object_or_404(Order, id=pk)
+        html = render_to_string("orders/order/pdf.html", {"order": order})
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = f"filename=order_{order.pk}.pdf"
+        weasyprint.HTML(string=html).write_pdf(
+            response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / "pdf.css")]
+        )
+        return response

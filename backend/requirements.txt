@@ -10,3 +10,4 @@ python-decouple>=3.8.0,<3.9.0
 celery>=5.3.1,<5.4.0
 flower>=2.0.0,<2.1.0
 stripe>=5.5.0,<5.6.0
+weasyprint>=59.0,<60.0

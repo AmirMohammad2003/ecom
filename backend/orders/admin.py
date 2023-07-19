@@ -51,6 +51,14 @@ def order_payment(obj):
 order_payment.short_description = "Stripe payment"
 
 
+def order_pdf(obj):
+    url = reverse("admin_order_pdf", args=[obj.id])
+    return mark_safe(f'<a href="{url}">PDF</a>')
+
+
+order_pdf.short_description = "Invoice"
+
+
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ["product"]
@@ -61,13 +69,14 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = [
         "first_name",
         "last_name",
-        "email",
         "address",
         "postal_code",
         "city",
         "paid",
         order_detail,
+        order_pdf,
         order_payment,
+        "email",
         "created",
         "updated",
     ]

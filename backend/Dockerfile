@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /app
 WORKDIR /app
 
-RUN apt-get update && apt-get install python3-dev libpq-dev -y
+RUN apt-get update && apt-get install python3-dev libpq-dev libpango-1.0-0 libpangoft2-1.0-0 libjpeg-dev libopenjp2-7-dev libffi-dev -y
 COPY . /app
 RUN pip install -r ${reqFile} --no-cache-dir
 
