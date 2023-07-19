@@ -20,6 +20,15 @@ services:
       - redis
       - rabbitMQ
 
+  flower:
+    <<: *celery
+    command: "celery -A onlineShop flower"
+    environment:
+      - FLOWER_BROKER_API=http://guest:guest@rabbitMQ:15672/api/
+    ports:
+      - 5555:5555
+    depends_on:
+      - celery
   app:
     <<: *celery
     command: "python manage.py runserver 0.0.0.0:8000"
@@ -46,8 +55,10 @@ services:
     image: rabbitmq:3-management
     expose:
       - 5672
+      - 15672
     ports:
       - 15672:15672
+
 
 
 
