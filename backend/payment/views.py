@@ -75,17 +75,16 @@ class PaymentWebhook(APIView):
 
         # Handle the event
         if event.type == "checkout.session.completed":
-            order_id = event.data.object.client_reference_id
-            order = Order.objects.get(id=order_id)
-            order.paid = True
-            order.save()
+            session = event.data.object
+            if session.mode == "payment" and session.payment_status == "paid":
+                try:
+                    order = Order.objects.get(id=session.client_reference_id)
+                except Order.DoesNotExist:
+                    return Response(status=404)
+                # mark order as paid
+                order.paid = True
+                order.save()
             print("checkout session completed!")
-        elif event.type == "payment_intent.succeeded":
-            payment_intent = event.data.object
-            print("PaymentIntent was successful!")
-        elif event.type == "payment_method.attached":
-            payment_method = event.data.object
-            print("PaymentMethod was attached to a Customer!")
         else:
             print("Unhandled event type {}".format(event.type))
 
