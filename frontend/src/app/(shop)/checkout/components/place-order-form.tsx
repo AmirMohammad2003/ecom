@@ -1,9 +1,10 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect,  useState } from "react";
 import toast from "react-hot-toast";
 import useSWRMutation from "swr/mutation";
 import { fetcherPostJson } from "../../lib/util";
+import { useRouter } from "next/navigation";
 
 const formInputs = [
   "first_name",
@@ -38,6 +39,7 @@ export default function PlaceOrderForm() {
     setFormData(values);
     setSend(true);
   };
+  const router = useRouter();
   const [send, setSend] = useState(false);
   const [formData, setFormData] = useState({} as any);
   const {
@@ -47,25 +49,26 @@ export default function PlaceOrderForm() {
     error,
   } = useSWRMutation("/v1/order/create/", (key) =>
     fetcherPostJson({ input: key, body: formData })
-  );
-  useEffect(() => {
-    if (!res) return;
-    if (res.status === 200) {
-      toast.success("Order placed successfully");
+    ,
+    {
+      onSuccess: (data, key, config) => {
+        toast.success("Order placed");
+        router.push("/checkout/pay/")
+      }
     }
-  }, [res])
+  );
+
   useEffect(() => {
     if (!error) return;
-    console.log(error)
+    console.log(error);
     if (error.status === 400) {
-      console.log(error.info)
+      console.log(error.info);
       Object.entries(error.info).forEach(([key, value]) => {
         toast.error(value as string);
       });
-      error
+      error;
     } else {
-
-    toast.error("Something went wrong");
+      toast.error("Something went wrong");
     }
   }, [error]);
   useEffect(() => {
