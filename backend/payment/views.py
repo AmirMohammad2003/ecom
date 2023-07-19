@@ -74,12 +74,14 @@ class PaymentWebhook(APIView):
             raise e
 
         # Handle the event
-        if event.type == "payment_intent.succeeded":
-            payment_intent = event.data.object
-            order_id = payment_intent.client_reference_id
+        if event.type == "checkout.session.completed":
+            order_id = event.data.object.client_reference_id
             order = Order.objects.get(id=order_id)
             order.paid = True
             order.save()
+            print("checkout session completed!")
+        elif event.type == "payment_intent.succeeded":
+            payment_intent = event.data.object
             print("PaymentIntent was successful!")
         elif event.type == "payment_method.attached":
             payment_method = event.data.object
