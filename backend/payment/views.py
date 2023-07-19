@@ -2,13 +2,12 @@ from decimal import Decimal
 
 import stripe
 from django.conf import settings
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from orders.models import Order
+from payment.tasks import payment_completed
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version = settings.STRIPE_API_VERSION
@@ -85,6 +84,7 @@ class PaymentWebhook(APIView):
                 order.paid = True
                 order.stripe_id = session.payment_intent
                 order.save()
+                payment_completed.delay(order.pk)
             print("checkout session completed!")
         else:
             print("Unhandled event type {}".format(event.type))
