@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import DetailView
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView
@@ -64,3 +66,11 @@ class OrderDetailsApi(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class AdminOrderDetail(UserPassesTestMixin, DetailView):
+    model = Order
+    template_name = "admin/orders/order/detail.html"
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
