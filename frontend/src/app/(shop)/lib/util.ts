@@ -1,3 +1,5 @@
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+
 export const API_URL = process.env.NEXT_PUBLIC_HOST_URL;
 export const fetcher = async (input: string) =>
   _fetcher({ input: input, credentials: "include" });
@@ -18,7 +20,7 @@ export const fetcherPostJson = async ({
     method: "post",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
-  })
+  });
 
 const _fetcher = async ({
   input,
@@ -35,4 +37,11 @@ const _fetcher = async ({
     throw error;
   }
   return _res.json();
+};
+
+export const makeCookies = (cookies: ReadonlyRequestCookies) => {
+  return cookies
+    .getAll()
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
 };
