@@ -1,4 +1,5 @@
 import OrderSummary from "./components/order-summary";
+import PayButton from "./components/pay-button";
 
 export default function PayPage() {
   return (
@@ -6,9 +7,7 @@ export default function PayPage() {
       <div className="card bg-base-300 rounded-box p-8 max-w-xl mx-auto">
         <OrderSummary />
         <div className="divider"></div>
-        <button className="btn btn-primary w-full">
-          <span className="text-white">Pay</span>
-        </button>
+        <PayButton />
       </div>
     </div>
   );
