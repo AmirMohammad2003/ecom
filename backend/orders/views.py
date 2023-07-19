@@ -12,7 +12,7 @@ from .models import Order, OrderItem
 from .serializers import OrderSerializer
 
 
-class OrderCreateView(CreateAPIView):
+class OrderCreateApi(CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
