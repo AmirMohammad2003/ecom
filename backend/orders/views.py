@@ -30,3 +30,4 @@ class OrderCreateView(CreateAPIView):
             )
         cart.clear()
         order_created.delay(order.pk)
+        self.request.session["order_id"] = order.pk
