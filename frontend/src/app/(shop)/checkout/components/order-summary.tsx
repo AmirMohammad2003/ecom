@@ -2,13 +2,11 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import OrderSummaryList from "./order-summary-list";
+import { makeCookies } from "../../lib/util";
 
 const API_URL = process.env.API_URL;
 const getCart = async () => {
-  const _cookies = cookies()
-    .getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join("; ");
+  const _cookies = makeCookies(cookies());
   const cart = await fetch(API_URL + "/v1/cart/", {
     headers: {
       cookie: _cookies,
@@ -28,14 +26,14 @@ export default async function OrderSummary() {
   if (cart.items.length === 0 || !cart || !cart.items) {
     redirect("/");
   }
-  let products = new Map<string, any>();
+  let products = [];
   for (let i = 0; i < cart.items.length; i++) {
     const item = cart.items[i];
     const product = await getProduct(item.slug);
-    products.set(item.slug, { ...item, ...product });
+    products.push({ ...item, ...product });
   }
 
   return (
-    <OrderSummaryList cart={cart} products={products}/>
+    <OrderSummaryList items={products} totalPrice={cart?.total_price}/>
   );
 }
