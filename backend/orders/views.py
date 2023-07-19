@@ -2,6 +2,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView
 
 from cart.cart import Cart
+from orders.tasks import order_created
 from shop.models import Product
 
 from .models import Order, OrderItem
@@ -28,3 +29,4 @@ class OrderCreateView(CreateAPIView):
                 quantity=cart.cart[product_id]["quantity"],
             )
         cart.clear()
+        order_created.delay(order.pk)

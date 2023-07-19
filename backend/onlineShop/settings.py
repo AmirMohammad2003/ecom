@@ -206,4 +206,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 CART_SESSION_ID = "cart"
 if DEBUG:
-    CELERY_BROKER_URL="amqp://guest:guest@rabbitMQ:5672/"
+    CELERY_BROKER_URL = "amqp://guest:guest@rabbitMQ:5672/"
+
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
